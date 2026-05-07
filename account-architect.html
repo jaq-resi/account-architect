@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account Architect — Resi</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --midnight: #181D30;
+    --tru-v: #8468D2;
+    --tru-v-tint: #9D86DB;
+    --tru-v-subtle: #DAD2F1;
+    --tru-v-soft: #F3F0FA;
+    --white: #FFFFFF;
+    --pewter-soft: #F5F6F6;
+    --pewter-subtle: #EBECED;
+    --pewter-medium: #E1E3E4;
+    --pewter-tone: #C4C6C8;
+    --pewter-shade: #B0B3B6;
+    --clay-soft: #F6F5F4;
+    --sage-soft: #F9FCF7;
+    --soft-sage: #C3DDAD;
+    --stonewash: #4F7D97;
+    --stonewash-soft: #EDF2F5;
+    --mellow: #EAE5B3;
+    --mellow-soft: #FDFCF7;
+    --danger: #E5534B;
+    --success: #2D8A4E;
+    --radius-lg: 16px;
+    --radius-sm: 8px;
+    --radius-pill: 9999px;
+    --shadow: 0 15px 40px rgba(24,29,48,0.07);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--pewter-soft);
+    color: var(--midnight);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--pewter-medium);
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--midnight);
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+    background: var(--tru-v);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-mark svg { width: 16px; height: 16px; }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--tru-v-soft);
+    color: var(--tru-v);
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--tru-v-subtle);
+  }
+
+  /* LAYOUT */
+  .app {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  .page-title {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+
+  .page-sub {
+    font-size: 14px;
+    color: var(--pewter-shade);
+    margin-bottom: 32px;
+  }
+
+  /* STEPS */
+  .steps {
+    display: flex;
+    gap: 0;
+    margin-bottom: 32px;
+    background: var(--white);
+    border: 1px solid var(--pewter-medium);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .step {
+    flex: 1;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--pewter-shade);
+    border-right: 1px solid var(--pewter-medium);
+    transition: background 0.2s;
+  }
+
+  .step:last-child { border-right: none; }
+
+  .step.active {
+    background: var(--tru-v-soft);
+    color: var(--tru-v);
+  }
+
+  .step.done {
+    color: var(--success);
+  }
+
+  .step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--pewter-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .step.active .step-num {
+    background: var(--tru-v);
+    color: white;
+  }
+
+  .step.done .step-num {
+    background: var(--success);
+    color: white;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--pewter-medium);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--tru-v-soft);
+  }
+
+  .card-title-icon svg { width: 14px; height: 14px; color: var(--tru-v); }
+
+  /* FORM */
+  .field { margin-bottom: 18px; }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--midnight);
+  }
+
+  .field-hint {
+    font-size: 12px;
+    color: var(--pewter-shade);
+    margin-bottom: 6px;
+    margin-top: -2px;
+  }
+
+  input[type="text"], input[type="url"], select, textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--pewter-medium);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--midnight);
+    background: var(--white);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+
+  input[type="text"]:focus, input[type="url"]:focus, select:focus, textarea:focus {
+    border-color: var(--tru-v);
+    box-shadow: 0 0 0 3px var(--tru-v-soft);
+  }
+
+  textarea { resize: vertical; min-height: 80px; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* PILL SELECTOR */
+  .pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .pill-opt {
+    padding: 7px 14px;
+    border: 1px solid var(--pewter-medium);
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    background: var(--white);
+    color: var(--midnight);
+    transition: all 0.15s;
+  }
+
+  .pill-opt:hover { border-color: var(--tru-v-tint); background: var(--tru-v-soft); }
+
+  .pill-opt.selected {
+    background: var(--tru-v);
+    border-color: var(--tru-v);
+    color: white;
+  }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: var(--radius-pill);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+  }
+
+  .btn-primary {
+    background: var(--midnight);
+    color: white;
+  }
+
+  .btn-primary:hover { background: #252c47; }
+  .btn-primary:disabled { background: var(--pewter-tone); cursor: not-allowed; }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--midnight);
+    border: 1px solid var(--pewter-medium);
+  }
+
+  .btn-secondary:hover { border-color: var(--midnight); }
+
+  .btn-accent {
+    background: var(--tru-v);
+    color: white;
+  }
+
+  .btn-accent:hover { background: #7459c0; }
+
+  .btn-sm { padding: 7px 14px; font-size: 13px; }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 24px;
+  }
+
+  /* STATUS / ALERTS */
+  .alert {
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .alert-info { background: var(--tru-v-soft); border: 1px solid var(--tru-v-subtle); color: var(--midnight); }
+  .alert-success { background: var(--sage-soft); border: 1px solid var(--soft-sage); color: var(--midnight); }
+  .alert-warning { background: var(--mellow-soft); border: 1px solid var(--mellow); color: var(--midnight); }
+  .alert-error { background: #FEF2F2; border: 1px solid #FECACA; color: var(--danger); }
+
+  /* PROGRESS */
+  .progress-wrap {
+    margin: 20px 0;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--pewter-shade);
+    margin-bottom: 8px;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: var(--pewter-subtle);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--tru-v);
+    border-radius: 9999px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* LOG */
+  .log {
+    background: var(--midnight);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: #9DA8C7;
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 16px 0;
+  }
+
+  .log-line { margin-bottom: 4px; }
+  .log-line.ok { color: var(--soft-sage); }
+  .log-line.warn { color: var(--mellow); }
+  .log-line.err { color: #F87171; }
+  .log-line.info { color: #93C5FD; }
+
+  /* OUTPUT TABS */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--pewter-medium);
+    margin-bottom: 20px;
+  }
+
+  .tab {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    color: var(--pewter-shade);
+    transition: all 0.15s;
+    margin-bottom: -1px;
+  }
+
+  .tab.active { color: var(--tru-v); border-bottom-color: var(--tru-v); }
+  .tab:hover:not(.active) { color: var(--midnight); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* TABLE PREVIEW */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--pewter-medium);
+    border-radius: var(--radius-sm);
+    margin-bottom: 16px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  thead { background: var(--pewter-soft); }
+  th {
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--pewter-shade);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--pewter-medium);
+  }
+
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--pewter-subtle);
+    vertical-align: top;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  .section-row td {
+    background: var(--tru-v-soft);
+    font-weight: 600;
+    font-size: 11px;
+    color: var(--tru-v);
+    letter-spacing: 0.03em;
+    padding: 7px 12px;
+  }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; }
+
+  .check-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--pewter-subtle);
+    font-size: 13px;
+  }
+
+  .check-item:last-child { border-bottom: none; }
+
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--pewter-medium);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .check-box.checked {
+    background: var(--success);
+    border-color: var(--success);
+  }
+
+  .check-box.checked::after {
+    content: '';
+    width: 10px;
+    height: 6px;
+    border: 2px solid white;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg) translateY(-1px);
+    display: block;
+  }
+
+  .check-label { flex: 1; }
+  .check-label strong { font-weight: 600; display: block; margin-bottom: 2px; }
+  .check-label span { color: var(--pewter-shade); font-size: 12px; }
+
+  .check-variable {
+    background: var(--mellow-soft);
+    border: 1px solid var(--mellow);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #92660A;
+    margin-left: 6px;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pewter-shade);
+    margin: 20px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--pewter-subtle);
+  }
+
+  /* HIDDEN */
+  .hidden { display: none !important; }
+
+  /* SPINNER */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  .spinner-dark {
+    border: 2px solid var(--pewter-subtle);
+    border-top-color: var(--tru-v);
+  }
+
+  /* DOWNLOAD BTNS */
+  .download-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--pewter-medium);
+  }
+
+  /* CHAR COUNT */
+  .char-count {
+    font-size: 11px;
+    color: var(--pewter-shade);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .char-over { color: var(--danger); }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">
+    <div class="logo-mark">
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M3 8L8 3L13 8L8 13L3 8Z" fill="white"/>
+      </svg>
+    </div>
+    Account Architect
+  </a>
+  <span class="badge">Search Phase · v1.0</span>
+</header>
+
+<div class="app">
+  <p class="page-title">Account Architect</p>
+  <p class="page-sub">Paste a property URL. Get a Google Ads-ready CSV + settings checklist.</p>
+
+  <!-- STEP INDICATOR -->
+  <div class="steps">
+    <div class="step active" id="step-1">
+      <div class="step-num">1</div>
+      <span>Property Info</span>
+    </div>
+    <div class="step" id="step-2">
+      <div class="step-num">2</div>
+      <span>Generate</span>
+    </div>
+    <div class="step" id="step-3">
+      <div class="step-num">3</div>
+      <span>Review & Export</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: INPUTS -->
+  <div id="phase-input">
+    <div class="card">
+      <div class="card-title">
+        <div class="card-title-icon">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="7" cy="7" r="5.5"/>
+            <path d="M7 4v3l2 1.5"/>
+          </svg>
+        </div>
+        Property Details
+      </div>
+
+      <div class="field">
+        <label for="url">Property Website URL</label>
+        <p class="field-hint">The full URL of the property's website (e.g. https://www.myelmhollow.com)</p>
+        <input type="url" id="url" placeholder="https://www.yourproperty.com" />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="prop-name">Property Name</label>
+          <input type="text" id="prop-name" placeholder="e.g. Elm Hollow" />
+        </div>
+        <div class="field">
+          <label for="prop-address">Property Address</label>
+          <input type="text" id="prop-address" placeholder="e.g. 123 Main St, Helotes, TX 78023" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Property Type</label>
+        <p class="field-hint">Determines which copy template bank to draw from when the site doesn't have enough detail.</p>
+        <div class="pill-group" id="prop-type-group">
+          <button class="pill-opt selected" data-val="Generic">Generic / Market-Rate</button>
+          <button class="pill-opt" data-val="Luxury">Luxury</button>
+          <button class="pill-opt" data-val="Affordable">Affordable</button>
+          <button class="pill-opt" data-val="Student">Student</button>
+          <button class="pill-opt" data-val="Senior">Senior (55+)</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="monthly-budget">Total Monthly Budget ($)</label>
+        <p class="field-hint">Will be split 15% Brand / 85% Non-Brand and converted to daily budgets.</p>
+        <input type="text" id="monthly-budget" placeholder="e.g. 2000" />
+      </div>
+
+      <div class="field">
+        <label for="extra-context">Additional Context <span style="font-weight:400;color:var(--pewter-shade)">(optional)</span></label>
+        <p class="field-hint">Unique selling points, nearby landmarks, competitor notes, anything the website might not surface.</p>
+        <textarea id="extra-context" placeholder="e.g. Close to JBSA Lackland, hill country views, dog park coming soon Q3..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-generate">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v2M7 11v2M1 7h2M11 7h2M2.93 2.93l1.41 1.41M9.66 9.66l1.41 1.41M2.93 11.07l1.41-1.41M9.66 4.34l1.41-1.41"/></svg>
+          Generate Account
+        </button>
+        <span style="font-size:12px;color:var(--pewter-shade)">Takes ~30–60 seconds</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: GENERATING -->
+  <div id="phase-generating" class="hidden">
+    <div class="card">
+      <div class="card-title">
+        <div class="card-title-icon">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="7" cy="7" r="5.5"/>
+            <path d="M7 4v3l2 1.5"/>
+          </svg>
+        </div>
+        Building Your Account
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span id="progress-label-text">Scanning website...</span>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+
+  <!-- STEP 3: OUTPUT -->
+  <div id="phase-output" class="hidden">
+
+    <div class="alert alert-success">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M5 8l2 2 4-4"/></svg>
+      <span>Account built successfully. Review below, then download your CSV and checklist.</span>
+    </div>
+
+    <div class="card">
+      <div class="tab-bar">
+        <div class="tab active" data-tab="preview">CSV Preview</div>
+        <div class="tab" data-tab="assets">Account Assets</div>
+        <div class="tab" data-tab="checklist">Settings Checklist</div>
+      </div>
+
+      <!-- CSV PREVIEW TAB -->
+      <div class="tab-content active" id="tab-preview">
+        <div id="csv-preview-wrap">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <!-- ASSETS TAB -->
+      <div class="tab-content" id="tab-assets">
+        <div id="assets-wrap">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <!-- CHECKLIST TAB -->
+      <div class="tab-content" id="tab-checklist">
+        <p style="font-size:13px;color:var(--pewter-shade);margin-bottom:16px;">Check off each item as you configure the account in Google Ads. Items marked <span class="check-variable">variable</span> require property-specific input.</p>
+        <ul class="checklist" id="checklist-wrap">
+          <!-- populated by JS -->
+        </ul>
+      </div>
+
+      <div class="download-group">
+        <button class="btn btn-primary" id="btn-download-csv">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v8M4 6l3 3 3-3M2 11h10"/></svg>
+          Download CSV
+        </button>
+        <button class="btn btn-secondary" id="btn-download-checklist">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2h10v10H2zM5 5h4M5 7.5h4M5 10h2"/></svg>
+          Download Checklist (TXT)
+        </button>
+        <button class="btn btn-secondary" id="btn-restart">Start Over</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────
+let selectedType = 'Generic';
+let generatedData = null;
+
+// ── PILL SELECTOR ─────────────────────────────────────────────────
+document.querySelectorAll('#prop-type-group .pill-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#prop-type-group .pill-opt').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedType = btn.dataset.val;
+  });
+});
+
+// ── TABS ──────────────────────────────────────────────────────────
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const parent = tab.closest('.card');
+    parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// ── STEPS ─────────────────────────────────────────────────────────
+function setStep(n) {
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById('step-' + i);
+    el.classList.remove('active', 'done');
+    if (i < n) el.classList.add('done');
+    else if (i === n) el.classList.add('active');
+  }
+}
+
+// ── LOG ───────────────────────────────────────────────────────────
+function log(msg, type = '') {
+  const log = document.getElementById('log');
+  const line = document.createElement('div');
+  line.className = 'log-line' + (type ? ' ' + type : '');
+  const ts = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  line.textContent = `[${ts}] ${msg}`;
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
+}
+
+function setProgress(pct, label) {
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-label-text').textContent = label;
+}
+
+// ── TEMPLATE BANK ─────────────────────────────────────────────────
+const TEMPLATE_BANK = {
+  Generic: {
+    headlines: ['Welcome to [Property Name]','Apartments in [City]','Modern Living in [City]','Find Your Home in [City]','1 & 2 Bedroom Homes in [City]','Book Your Visit With Us Today','Elevated [City] Living','Start Your Application Today','Find Your Perfect Home Layout','Spacious [City] Apartments','Pet-Friendly Living in [City]','Resort-Style Amenities','Gated Community in [City]','Apply Online — It\'s Easy','Your New Home Awaits in [City]'],
+    descriptions: ['Discover Resort-Style Living in [City]. Take a Tour of [Property Name] Today & Find Your Perfect Home.','Enjoy a Curated Collection of Home Features and Amenities. Call [Property Name] to Schedule a Tour Today.','A Pet-Friendly Apartment Community in [City], Close to Shopping, Dining, & More. Apply Online Today.','Spacious 1 & 2 Bedroom Floor Plans in [City] With Modern Finishes & Premium Amenities. Visit [Property Name].']
+  },
+  Luxury: {
+    headlines: ['Welcome to [Property Name]','Luxury Living in [City]','Elevated [City] Apartments','Refined Homes in [City]','Book Your Private Tour Today','Upscale 1 & 2 Bedroom Homes','Premium Finishes Throughout','Resort-Style Amenities Await','A Cut Above in [City]','Start Your Application Today','Find Your Perfect Floor Plan','Concierge-Level Service','Sophisticated [City] Living','Designed for Those Who Know','Your Luxury Address in [City]'],
+    descriptions: ['Experience Upscale Living at [Property Name] in [City]. Designer Finishes, Resort Amenities & More. Tour Today.','Elevated Residences With Curated Amenities in [City]. [Property Name] Is Where Luxury Meets Home. Apply Now.','From Granite Countertops to a Resort Pool — [Property Name] Delivers Premium Living in the Heart of [City].','A Pet-Friendly Luxury Community in [City] With Concierge Service, Upscale Interiors & Exceptional Amenities.']
+  },
+  Affordable: {
+    headlines: ['Welcome to [Property Name]','Quality Living in [City]','Comfortable Homes in [City]','Affordable [City] Apartments','Great Value in [City]','Schedule a Tour Today','Start Your Application Today','Find Your Perfect Home Layout','Spacious Homes, Low Prices','Modern Living, Smart Pricing','Income-Based Options Available','Budget-Friendly [City] Apts','Homes Designed for Real Life','Apply Today — Spots Available','Quality You Can Afford'],
+    descriptions: ['Quality Apartment Homes in [City] at Prices That Work for You. Visit [Property Name] & See What\'s Available.','Affordable Living Doesn\'t Mean Compromise. [Property Name] Offers Comfortable Homes & Great Amenities in [City].','A Welcoming, Pet-Friendly Community in [City] With Spacious Layouts & Convenient On-Site Amenities. Tour Today.','Income-Restricted & Market-Rate Homes Available at [Property Name]. Apply Online or Call to Learn More in [City].']
+  },
+  Student: {
+    headlines: ['Welcome to [Property Name]','Student Living in [City]','Near Campus in [City]','Built for Student Life','By-the-Bed Leases Available','Fully Furnished Options','Study Rooms & Fast WiFi','Book Your Visit Today','Start Your Application Today','Find Your Perfect Floor Plan','Roommate Matching Available','Flexible Lease Terms Offered','Live Close to Class in [City]','Student Apts Near [City]','Apply Now — Limited Spots'],
+    descriptions: ['Student-Focused Living Near Campus in [City]. [Property Name] Offers Furnished Homes, Fast WiFi & Study Spaces.','By-the-Bed Leases, Roommate Matching & All-Inclusive Pricing. [Property Name] Is Built for Student Life in [City].','A Pet-Friendly Student Community in [City] With Resort Amenities, Study Lounges & Flexible Lease Options. Apply Now.','Live Your Best Student Life at [Property Name] in [City]. Full Amenities & Online Leasing Available.']
+  },
+  Senior: {
+    headlines: ['Welcome to [Property Name]','55+ Living in [City]','Active Adult Homes in [City]','Peaceful [City] Community','Designed for Active Adults','Book Your Visit Today','Start Your Application Today','Find Your Perfect Home Layout','Low-Maintenance Living Awaits','55+ Community in [City]','Comfort & Community in [City]','Social Events & Activities','Safe, Quiet [City] Apartments','Maintenance-Free Lifestyle','Your Next Chapter in [City]'],
+    descriptions: ['Discover Peaceful 55+ Living at [Property Name] in [City]. Low-Maintenance Homes & an Active Adult Community Await.','Enjoy Social Events, Wellness Amenities & a Quiet Neighborhood at [Property Name] in [City]. Schedule a Tour Today.','A Senior-Friendly Pet-Welcoming Community in [City] With Spacious Layouts & Dedicated On-Site Services. Apply Now.','Start Your Next Chapter at [Property Name]. Comfortable, Maintenance-Free Apartment Living in the Heart of [City].']
+  }
+};
+
+// ── MAIN GENERATE ─────────────────────────────────────────────────
+document.getElementById('btn-generate').addEventListener('click', async () => {
+  const url = document.getElementById('url').value.trim();
+  const propName = document.getElementById('prop-name').value.trim();
+  const address = document.getElementById('prop-address').value.trim();
+  const budget = parseFloat(document.getElementById('monthly-budget').value.trim()) || 0;
+  const extraCtx = document.getElementById('extra-context').value.trim();
+
+  if (!url || !propName || !address) {
+    alert('Please fill in URL, Property Name, and Address before generating.');
+    return;
+  }
+
+  // Switch to generating phase
+  document.getElementById('phase-input').classList.add('hidden');
+  document.getElementById('phase-generating').classList.remove('hidden');
+  setStep(2);
+
+  const cityMatch = address.match(/,\s*([^,]+),\s*[A-Z]{2}/);
+  const city = cityMatch ? cityMatch[1].trim() : 'your city';
+
+  const brandBudget = budget > 0 ? (budget * 0.15 / 30).toFixed(2) : 'TBD';
+  const nonBrandBudget = budget > 0 ? (budget * 0.85 / 30).toFixed(2) : 'TBD';
+  const templates = TEMPLATE_BANK[selectedType];
+
+  try {
+    // Step 1: Scrape
+    setProgress(10, 'Scanning website...');
+    log('Fetching property website: ' + url, 'info');
+
+    const scrapeResp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{
+          role: 'user',
+          content: `Search for and visit this apartment property website: ${url}
+
+Extract the following in JSON format only (no markdown, no explanation):
+{
+  "property_name": "",
+  "city": "",
+  "state": "",
+  "tagline": "",
+  "floor_plans": [{"name":"","beds":"","baths":"","sqft":"","price":""}],
+  "amenities": [],
+  "location_highlights": [],
+  "pet_policy": "",
+  "special_offers": "",
+  "phone": "",
+  "nearby_landmarks": [],
+  "community_features": []
+}
+
+Property name hint: ${propName}
+Address hint: ${address}
+Extra context: ${extraCtx || 'none'}
+
+Return ONLY the JSON object, nothing else.`
+        }]
+      })
+    });
+
+    const scrapeData = await scrapeResp.json();
+    let siteInfo = null;
+
+    // Parse the response
+    for (const block of scrapeData.content || []) {
+      if (block.type === 'text' && block.text.trim().startsWith('{')) {
+        try { siteInfo = JSON.parse(block.text.trim()); } catch(e) {}
+      }
+      if (block.type === 'mcp_tool_result') {
+        try { 
+          const raw = block.content?.[0]?.text || '{}';
+          if (raw.trim().startsWith('{')) siteInfo = JSON.parse(raw);
+        } catch(e) {}
+      }
+    }
+
+    // Fallback if parsing failed
+    if (!siteInfo) {
+      siteInfo = {
+        property_name: propName, city, state: '',
+        floor_plans: [{name:'1 Bedroom', beds:'1', baths:'1', sqft:'', price:''}, {name:'2 Bedroom', beds:'2', baths:'2', sqft:'', price:''}],
+        amenities: ['Resort-Style Pool', 'Fitness Center', 'Pet-Friendly Community', 'Gated Entry', 'Covered Parking'],
+        location_highlights: [`Located in ${city}`],
+        pet_policy: 'Pet-friendly', special_offers: '',
+        nearby_landmarks: [], community_features: []
+      };
+      log('Website scan returned limited data — drawing from template bank + your context.', 'warn');
+    } else {
+      log('Website scanned successfully.', 'ok');
+    }
+
+    // Merge with user inputs
+    if (!siteInfo.property_name) siteInfo.property_name = propName;
+    if (!siteInfo.city) siteInfo.city = city;
+    if (extraCtx) siteInfo.extra = extraCtx;
+
+    setProgress(35, 'Building brand campaign...');
+    log('Generating Brand campaign keywords + RSA...', 'info');
+
+    // Step 2: Generate full account
+    const buildResp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `You are a Google Ads PPC specialist building a complete Search account for a multifamily apartment community.
+
+PROPERTY INFO:
+${JSON.stringify(siteInfo, null, 2)}
+
+PROPERTY TYPE: ${selectedType}
+BRAND DAILY BUDGET: $${brandBudget}
+NON-BRAND DAILY BUDGET: $${nonBrandBudget}
+FINAL URL: ${url}
+
+TEMPLATE BANK FALLBACK (use only when site data is insufficient):
+Headlines: ${JSON.stringify(templates.headlines)}
+Descriptions: ${JSON.stringify(templates.descriptions)}
+
+RULES:
+- Headlines: max 30 characters each. Count carefully.
+- Descriptions: max 90 characters each. Count carefully.
+- Use Title Case for all ad copy.
+- Replace [Property Name] with actual name, [City] with actual city.
+- Prioritize site-specific details. Only use template bank when site data is thin.
+- Brand keywords: exact match only, 4-5 variations of the property name.
+- Non-Brand Floor Plans: 12-15 keywords, exact + phrase match only, no broad.
+- Non-Brand Location: 12-15 keywords, exact + phrase match only.
+- Non-Brand Amenities: 7-9 keywords, exact + phrase match only.
+- Floor plan ads: one RSA per floor plan type found on site.
+- Location ads: 2 RSAs.
+- Amenities ad: 1 RSA.
+- Each RSA: 15 headlines + 4 descriptions.
+- Callouts: 5, amenity-focused, max 25 chars each.
+- Structured Snippets: 3-4 (Amenities, Floor Plans, Neighborhood headers).
+- Sitelinks: 6 with text + 2 description lines each.
+
+Return ONLY a JSON object with this exact structure (no markdown):
+{
+  "brand_keywords": [{"keyword":"","match_type":"Exact"}],
+  "brand_ad": {"name":"Brand – Main RSA","headlines":[],"descriptions":[]},
+  "floor_plan_keywords": [{"keyword":"","match_type":""}],
+  "floor_plan_ads": [{"name":"","headlines":[],"descriptions":[],"url":"${url}floorplans"}],
+  "location_keywords": [{"keyword":"","match_type":""}],
+  "location_ads": [{"name":"","headlines":[],"descriptions":[]}],
+  "amenity_keywords": [{"keyword":"","match_type":""}],
+  "amenity_ad": {"name":"Amenities RSA","headlines":[],"descriptions":[]},
+  "callouts": [],
+  "structured_snippets": [{"header":"","values":[]}],
+  "sitelinks": [{"text":"","desc1":"","desc2":"","url":""}]
+}`
+        }]
+      })
+    });
+
+    setProgress(70, 'Structuring campaigns and ad groups...');
+    log('Campaigns generated. Structuring output...', 'ok');
+
+    const buildData = await buildResp.json();
+    let acct = null;
+
+    for (const block of buildData.content || []) {
+      if (block.type === 'text') {
+        const text = block.text.trim();
+        const jsonStart = text.indexOf('{');
+        const jsonEnd = text.lastIndexOf('}');
+        if (jsonStart !== -1 && jsonEnd !== -1) {
+          try { acct = JSON.parse(text.slice(jsonStart, jsonEnd + 1)); } catch(e) {}
+        }
+      }
+    }
+
+    if (!acct) throw new Error('Failed to parse account structure from AI response.');
+
+    setProgress(90, 'Building CSV and checklist...');
+    log('Building export files...', 'info');
+
+    // Build CSV rows
+    const rows = buildCSVRows(acct, siteInfo, url, propName, brandBudget, nonBrandBudget);
+    const assets = buildAssetsPreview(acct);
+    const checklist = buildChecklist(siteInfo, address, selectedType);
+
+    generatedData = { rows, assets, checklist, acct, siteInfo, propName };
+
+    setProgress(100, 'Done.');
+    log('Account Architect complete. ' + rows.filter(r => r[0] === 'Keyword').length + ' keywords · ' + rows.filter(r => r[0] === 'Ad').length + ' ads.', 'ok');
+
+    setTimeout(() => {
+      document.getElementById('phase-generating').classList.add('hidden');
+      document.getElementById('phase-output').classList.remove('hidden');
+      setStep(3);
+      renderOutput();
+    }, 800);
+
+  } catch(err) {
+    log('Error: ' + err.message, 'err');
+    setProgress(0, 'Error — see log above.');
+    console.error(err);
+  }
+});
+
+// ── CSV BUILDER ───────────────────────────────────────────────────
+function buildCSVRows(acct, site, url, propName, brandBudget, nonBrandBudget) {
+  const rows = [];
+  const brandCamp = `${propName} | Brand`;
+  const nonBrandCamp = `${propName} | Non-Brand`;
+
+  // Section comment
+  rows.push(['# BRAND CAMPAIGN — 15% of total spend']);
+  rows.push(['# Ad Group: Brand']);
+
+  // Brand keywords
+  (acct.brand_keywords || []).forEach(kw => {
+    rows.push(['Keyword', brandCamp, 'Brand', kw.keyword, kw.match_type || 'Exact', '', ...Array(15).fill(''), ...Array(4).fill(''), url, '']);
+  });
+
+  // Brand ad
+  const ba = acct.brand_ad || {};
+  rows.push(['Ad', brandCamp, 'Brand', '', '', ba.name || 'Brand – Main RSA',
+    ...(ba.headlines || []).slice(0,15).concat(Array(15).fill('')).slice(0,15),
+    ...(ba.descriptions || []).slice(0,4).concat(Array(4).fill('')).slice(0,4),
+    url, '']);
+
+  rows.push([]);
+  rows.push(['# NON-BRAND CAMPAIGN — 85% of total spend']);
+
+  // Floor Plans
+  rows.push(['# Ad Group: Floor Plans']);
+  (acct.floor_plan_keywords || []).forEach(kw => {
+    rows.push(['Keyword', nonBrandCamp, 'Floor Plans', kw.keyword, kw.match_type || 'Exact', '', ...Array(15).fill(''), ...Array(4).fill(''), url, '']);
+  });
+  (acct.floor_plan_ads || []).forEach(ad => {
+    rows.push(['Ad', nonBrandCamp, 'Floor Plans', '', '', ad.name || 'Floor Plan RSA',
+      ...(ad.headlines || []).slice(0,15).concat(Array(15).fill('')).slice(0,15),
+      ...(ad.descriptions || []).slice(0,4).concat(Array(4).fill('')).slice(0,4),
+      ad.url || url + 'floorplans', '']);
+  });
+
+  rows.push([]);
+  rows.push(['# Ad Group: Location']);
+  (acct.location_keywords || []).forEach(kw => {
+    rows.push(['Keyword', nonBrandCamp, 'Location', kw.keyword, kw.match_type || 'Exact', '', ...Array(15).fill(''), ...Array(4).fill(''), url, '']);
+  });
+  (acct.location_ads || []).forEach(ad => {
+    rows.push(['Ad', nonBrandCamp, 'Location', '', '', ad.name || 'Location RSA',
+      ...(ad.headlines || []).slice(0,15).concat(Array(15).fill('')).slice(0,15),
+      ...(ad.descriptions || []).slice(0,4).concat(Array(4).fill('')).slice(0,4),
+      url, '']);
+  });
+
+  rows.push([]);
+  rows.push(['# Ad Group: Amenities']);
+  (acct.amenity_keywords || []).forEach(kw => {
+    rows.push(['Keyword', nonBrandCamp, 'Amenities', kw.keyword, kw.match_type || 'Exact', '', ...Array(15).fill(''), ...Array(4).fill(''), url, '']);
+  });
+  const ama = acct.amenity_ad || {};
+  rows.push(['Ad', nonBrandCamp, 'Amenities', '', '', ama.name || 'Amenities RSA',
+    ...(ama.headlines || []).slice(0,15).concat(Array(15).fill('')).slice(0,15),
+    ...(ama.descriptions || []).slice(0,4).concat(Array(4).fill('')).slice(0,4),
+    url, '']);
+
+  rows.push([]);
+  rows.push(['# ACCOUNT-LEVEL ASSETS']);
+
+  rows.push(['# Callout Extensions (5)']);
+  (acct.callouts || []).forEach(c => {
+    rows.push(['Callout', '', '', '', '', c]);
+  });
+
+  rows.push([]);
+  rows.push(['# Structured Snippets (' + (acct.structured_snippets || []).length + ')']);
+  (acct.structured_snippets || []).forEach(ss => {
+    rows.push(['Structured Snippet', '', '', '', '', ss.header, ...ss.values]);
+  });
+
+  rows.push([]);
+  rows.push(['# Sitelink Extensions (6)']);
+  (acct.sitelinks || []).forEach(sl => {
+    rows.push(['Sitelink', '', '', '', '', sl.text, sl.desc1, sl.desc2, sl.url || url]);
+  });
+
+  return rows;
+}
+
+// ── ASSETS PREVIEW ────────────────────────────────────────────────
+function buildAssetsPreview(acct) {
+  return { callouts: acct.callouts || [], snippets: acct.structured_snippets || [], sitelinks: acct.sitelinks || [] };
+}
+
+// ── CHECKLIST ─────────────────────────────────────────────────────
+function buildChecklist(site, address, propType) {
+  return [
+    { section: 'Campaign Settings' },
+    { label: 'Bidding Strategy', detail: 'Set to Maximize Conversions on all campaigns.', variable: false },
+    { label: 'Campaign Goals', detail: 'Brand + Non-Brand Search: Leads goal. (Display/PMax added later.)', variable: false },
+    { label: 'Ad Scheduling', detail: 'Set 5AM – 11PM (local time) on all campaigns.', variable: false },
+    { label: 'Location Targeting', detail: '20mi radius around: ' + address, variable: true },
+    { label: 'Location Exclusions', detail: 'Exclude any irrelevant metros or zip codes as needed.', variable: true },
+    { section: 'Audience & Targeting' },
+    { label: 'Audience Targeting', detail: 'In-market: Apartments & Rental Properties. Layer based on property type: ' + propType + '.', variable: true },
+    { label: 'Demographics', detail: 'Adjust bid modifiers based on target renter profile for this community.', variable: true },
+    { section: 'Account-Level Settings' },
+    { label: 'Content Exclusions', detail: 'Set content exclusions at account level (sensitive categories, etc.).', variable: false },
+    { label: 'Conversion Settings', detail: 'Verify conversion actions are active and properly configured.', variable: false },
+    { label: 'Account Settings', detail: 'Confirm auto-tagging is on. Verify time zone and currency are correct.', variable: false },
+    { label: 'Data Source Connections', detail: 'Confirm GA4, any CRM, and call tracking are connected and firing.', variable: false },
+    { section: 'Ad Assets' },
+    { label: 'Callout Extensions', detail: '5 callouts imported from CSV. Verify display in Google Ads UI.', variable: false },
+    { label: 'Structured Snippets', detail: 'Verify headers and values match Google\'s accepted header types.', variable: false },
+    { label: 'Sitelink Extensions', detail: '6 sitelinks imported. Confirm URLs are live and correct.', variable: false },
+    { section: 'Post-Build QA' },
+    { label: 'Keyword Review', detail: 'Check all keywords for relevance. Pause any that look off.', variable: false },
+    { label: 'Ad Copy Review', detail: 'Read all RSA headlines and descriptions. Flag anything that needs editing.', variable: false },
+    { label: 'Character Counts', detail: 'Confirm all headlines ≤30 chars, descriptions ≤90 chars after import.', variable: false },
+    { label: 'Final URLs', detail: 'Spot-check all Final URLs are live and load correctly.', variable: false },
+  ];
+}
+
+// ── RENDER OUTPUT ─────────────────────────────────────────────────
+function renderOutput() {
+  const { rows, assets, checklist } = generatedData;
+
+  // CSV PREVIEW
+  const headers = ['Row Type','Campaign','Ad Group','Keyword','Match Type','Ad Name','H1','H2','H3','H4','H5','...H15','D1','D2','D3','D4','Final URL'];
+  const previewWrap = document.getElementById('csv-preview-wrap');
+  let tableHTML = `<div class="table-wrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>`;
+  
+  let rowCount = 0;
+  rows.forEach(row => {
+    if (!row || row.length === 0) return;
+    const type = row[0] || '';
+    if (type.startsWith('#')) {
+      tableHTML += `<tr class="section-row"><td colspan="${headers.length}">${type.replace(/^#\s*/,'')}</td></tr>`;
+    } else if (type) {
+      const cells = [row[0]||'', row[1]||'', row[2]||'', row[3]||'', row[4]||'', row[5]||'',
+        row[6]||'', row[7]||'', row[8]||'', row[9]||'', row[10]||'', '...',
+        row[21]||'', row[22]||'', row[23]||'', row[24]||'', row[25]||''];
+      tableHTML += `<tr>${cells.map(c=>`<td title="${String(c).replace(/"/g,'&quot;')}">${String(c).substring(0,40) || '—'}</td>`).join('')}</tr>`;
+      rowCount++;
+    }
+  });
+
+  tableHTML += `</tbody></table></div>`;
+  tableHTML += `<p style="font-size:12px;color:var(--pewter-shade)">Showing ${rowCount} data rows. Full CSV includes all 15 headlines and 4 descriptions per ad. Download to see complete output.</p>`;
+  previewWrap.innerHTML = tableHTML;
+
+  // ASSETS TAB
+  const assetsWrap = document.getElementById('assets-wrap');
+  let assetsHTML = '';
+
+  assetsHTML += '<p class="section-header">Callout Extensions</p>';
+  assetsHTML += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">';
+  (assets.callouts || []).forEach(c => {
+    assetsHTML += `<span style="background:var(--tru-v-soft);border:1px solid var(--tru-v-subtle);border-radius:var(--radius-pill);padding:5px 12px;font-size:13px;color:var(--midnight)">${c}</span>`;
+  });
+  assetsHTML += '</div>';
+
+  assetsHTML += '<p class="section-header">Structured Snippets</p>';
+  (assets.snippets || []).forEach(ss => {
+    assetsHTML += `<div style="margin-bottom:12px"><p style="font-size:12px;font-weight:600;margin-bottom:4px">${ss.header}</p>`;
+    assetsHTML += `<div style="display:flex;flex-wrap:wrap;gap:6px">${(ss.values||[]).map(v=>`<span style="background:var(--pewter-subtle);border-radius:4px;padding:3px 8px;font-size:12px">${v}</span>`).join('')}</div></div>`;
+  });
+
+  assetsHTML += '<p class="section-header">Sitelinks</p>';
+  assetsHTML += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
+  (assets.sitelinks || []).forEach(sl => {
+    assetsHTML += `<div style="border:1px solid var(--pewter-medium);border-radius:var(--radius-sm);padding:12px">
+      <p style="font-size:13px;font-weight:600;color:var(--stonewash);margin-bottom:4px">${sl.text}</p>
+      <p style="font-size:12px;color:var(--pewter-shade)">${sl.desc1}</p>
+      <p style="font-size:12px;color:var(--pewter-shade)">${sl.desc2}</p>
+      <p style="font-size:11px;color:var(--tru-v-tint);margin-top:4px;font-family:'DM Mono',monospace">${(sl.url||'').substring(0,45)}</p>
+    </div>`;
+  });
+  assetsHTML += '</div>';
+
+  assetsWrap.innerHTML = assetsHTML;
+
+  // CHECKLIST TAB
+  const checklistWrap = document.getElementById('checklist-wrap');
+  let checkHTML = '';
+  checklist.forEach(item => {
+    if (item.section) {
+      checkHTML += `<li style="list-style:none"><p class="section-header">${item.section}</p></li>`;
+    } else {
+      checkHTML += `<li class="check-item">
+        <div class="check-box" onclick="this.classList.toggle('checked')"></div>
+        <div class="check-label">
+          <strong>${item.label}${item.variable ? '<span class="check-variable">variable</span>' : ''}</strong>
+          <span>${item.detail}</span>
+        </div>
+      </li>`;
+    }
+  });
+  checklistWrap.innerHTML = checkHTML;
+}
+
+// ── DOWNLOAD CSV ──────────────────────────────────────────────────
+document.getElementById('btn-download-csv').addEventListener('click', () => {
+  if (!generatedData) return;
+  const { rows, propName } = generatedData;
+
+  const HEADERS = ['Row Type','Campaign','Ad Group','Keyword','Match Type','Ad Name',
+    'Headline 1','Headline 2','Headline 3','Headline 4','Headline 5','Headline 6','Headline 7',
+    'Headline 8','Headline 9','Headline 10','Headline 11','Headline 12','Headline 13','Headline 14','Headline 15',
+    'Description 1','Description 2','Description 3','Description 4','Final URL','Notes'];
+
+  const csvLines = [HEADERS.map(h => `"${h}"`).join(',')];
+  rows.forEach(row => {
+    if (!row || row.length === 0) { csvLines.push(''); return; }
+    // Pad row to header length
+    while (row.length < HEADERS.length) row.push('');
+    csvLines.push(row.map(cell => `"${String(cell||'').replace(/"/g,'""')}"`).join(','));
+  });
+
+  const blob = new Blob([csvLines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = propName.replace(/\s+/g, '_') + '_Google_Ads_Import.csv';
+  a.click();
+});
+
+// ── DOWNLOAD CHECKLIST ────────────────────────────────────────────
+document.getElementById('btn-download-checklist').addEventListener('click', () => {
+  if (!generatedData) return;
+  const { checklist, propName, siteInfo } = generatedData;
+
+  let txt = `ACCOUNT ARCHITECT — SETTINGS CHECKLIST\n${propName}\nGenerated: ${new Date().toLocaleDateString()}\n\n${'='.repeat(50)}\n\n`;
+  checklist.forEach(item => {
+    if (item.section) {
+      txt += `\n${item.section.toUpperCase()}\n${'-'.repeat(item.section.length)}\n`;
+    } else {
+      txt += `[ ] ${item.label}${item.variable ? ' [VARIABLE]' : ''}\n    ${item.detail}\n\n`;
+    }
+  });
+
+  const blob = new Blob([txt], { type: 'text/plain;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = propName.replace(/\s+/g, '_') + '_Settings_Checklist.txt';
+  a.click();
+});
+
+// ── RESTART ───────────────────────────────────────────────────────
+document.getElementById('btn-restart').addEventListener('click', () => {
+  generatedData = null;
+  document.getElementById('phase-output').classList.add('hidden');
+  document.getElementById('phase-input').classList.remove('hidden');
+  document.getElementById('log').innerHTML = '';
+  setStep(1);
+  setProgress(0, 'Ready');
+});
+</script>
+</body>
+</html>
